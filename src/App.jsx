@@ -1,45 +1,33 @@
 import "./App.css";
-// import { useState } from "react";
 import { generateHmac } from "./utils/hmacGenerator";
 import axios from "axios";
 
-const REQUEST_METHOD = "POST";
-const DOMAIN = "https://api-gateway.coupang.com";
-const URL = "/v2/providers/affiliate_open_api/apis/openapi/v1/deeplink";
-
-// Replace with your own ACCESS_KEY and SECRET_KEY
-const ACCESS_KEY = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-const SECRET_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-
-const REQUEST = {
-  coupangUrls: [
-    "https://www.coupang.com/np/search?component=&q=good&channel=user",
-    "https://www.coupang.com/np/coupangglobal",
-  ],
-};
+// 환경 변수 상수로 정의
+const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
+const SECRET_KEY = import.meta.env.VITE_APP_SECRET_KEY;
+const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
 function App() {
-  // const [count, setCount] = useState(0);
-
   return (
     <>
       <div>안녕하세요</div>
       <button
         onClick={async () => {
+          console.log("ACCESS_KEY:", ACCESS_KEY);
+          console.log("SECRET_KEY:", SECRET_KEY);
           const authorization = generateHmac(
-            REQUEST_METHOD,
-            URL,
+            "GET",
+            "/products/goldbox",
             SECRET_KEY,
             ACCESS_KEY
           );
-          axios.defaults.baseURL = DOMAIN;
+          axios.defaults.baseURL = BASE_URL;
 
           try {
             const response = await axios.request({
-              method: REQUEST_METHOD,
-              url: URL,
+              method: "GET",
+              url: "/products/goldbox",
               headers: { Authorization: authorization },
-              data: REQUEST,
             });
             console.log(response.data);
           } catch (err) {
