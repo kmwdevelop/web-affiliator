@@ -9,7 +9,7 @@ export default defineConfig({
       "/v2": {
         target: "https://api-gateway.coupang.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/v2/, "/v2"),
+        // rewrite: (path) => path.replace(/^\/v2/, "/v2"),
       },
     },
   },

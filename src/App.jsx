@@ -5,7 +5,8 @@ import axios from "axios";
 // 환경 변수 상수로 정의
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 const SECRET_KEY = import.meta.env.VITE_APP_SECRET_KEY;
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+// const DOMAIN = import.meta.env.VITE_APP_DOMAIN;
+const CUPANG_URL = import.meta.env.VITE_APP_CUPANG_URL;
 
 function App() {
   return (
@@ -17,16 +18,16 @@ function App() {
           console.log("SECRET_KEY:", SECRET_KEY);
           const authorization = generateHmac(
             "GET",
-            "/products/goldbox",
+            `${CUPANG_URL}/products/goldbox`,
             SECRET_KEY,
             ACCESS_KEY
           );
-          axios.defaults.baseURL = BASE_URL;
+          axios.defaults.baseURL = "";
 
           try {
             const response = await axios.request({
               method: "GET",
-              url: "/products/goldbox",
+              url: `${CUPANG_URL}/products/goldbox`,
               headers: { Authorization: authorization },
             });
             console.log(response.data);

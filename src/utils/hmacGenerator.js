@@ -4,7 +4,8 @@ export const generateHmac = async (method, url, secretKey, accessKey) => {
   const parts = url.split(/\?/);
   const [path, query = ""] = parts;
 
-  const datetime = moment.utc().format("YYMMDD[T]HHmmss[Z]");
+  // 현재 UTC 시간을 API에서 요구하는 형식으로 생성
+  const datetime = moment.utc().format("YYYYMMDDTHHmmss[Z]"); // YYYYMMDDTHHmmssZ 형식으로 수정
   const message = datetime + method + path + query;
 
   // HMAC 생성
@@ -28,5 +29,6 @@ export const generateHmac = async (method, url, secretKey, accessKey) => {
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("");
 
+  // 최종 서명 문자열 생성
   return `CEA algorithm=HmacSHA256, access-key=${accessKey}, signed-date=${datetime}, signature=${signature}`;
 };
